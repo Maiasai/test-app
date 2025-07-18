@@ -9,18 +9,6 @@ const stripHtml = (html) => {
   return temp.textContent || '';
 };
 
-// 54文字で切って「…」を付ける＞改行\n を <br> に戻す
-// sliceで先頭から maxLengthの文字数だけ切り取って「…」を付ける
-const formatContent = (html, maxLength = 54) => {
-  const plainText = stripHtml(html);
-  const trimmedText =
-    plainText.length > maxLength
-      ? plainText.slice(0, maxLength) + '…'
-      : plainText;
-
-      
-  return trimmedText.replace(/\n/g, '<br />');
-};
 
 
 export const TopPage = () => {
@@ -45,9 +33,9 @@ export const TopPage = () => {
           
 
             <p className='text-black text-2xl mt-2 mb-4'>{data.title}</p>
-            <p className='text-black'
-  dangerouslySetInnerHTML={{ __html: formatContent(data.content) }} 
-/>
+            <p className='text-black line-clamp-2'
+              dangerouslySetInnerHTML={{ __html:data.content }}/>
+
 
 
 
