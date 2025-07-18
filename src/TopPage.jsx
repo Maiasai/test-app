@@ -18,6 +18,7 @@ const formatContent = (html, maxLength = 54) => {
       ? plainText.slice(0, maxLength) + '…'
       : plainText;
 
+      
   return trimmedText.replace(/\n/g, '<br />');
 };
 
@@ -31,12 +32,15 @@ export const TopPage = () => {
       { posts.map((data)=> (
          <div key={data.id} className='text-black mb-8 p-4 border border-gray-300'>
            <div className='flex justify-between'>
-              <p className='text-gray-400 text-[12.8px]'>{new Date(data.createdAt).toLocaleDateString('ja-JP')}</p>
+                  <li className='text-gray-400 text-[12.8px] list-none'>{new Date(data.createdAt).toLocaleDateString('ja-JP')}</li>
             
               <ul className='flex'>
-              <p className='text-blue-600 text-[12.8px] mr-2 py-1  px-2 border border-blue-500 rounded'>react</p>
-              <p className='text-blue-600 text-[12.8px] mr-2 py-1  px-2  border border-blue-500 rounded'>TypeScript</p>
-              </ul>
+                {data.categories && data.categories.length > 0 && (
+                  <li className='text-blue-600 text-[12.8px] mr-2 py-1  px-2 border border-blue-500 rounded list-none'>{data.categories[0]}</li>)}
+
+                {data.categories && data.categories.length > 1 && (
+                  <li className='text-blue-600 text-[12.8px] mr-2 py-1  px-2  border border-blue-500 rounded list-none'>{data.categories[1]}</li>)}
+                </ul>
             </div>
           
 
