@@ -1,7 +1,6 @@
 import React from 'react';
 import { posts } from './posts';
-import { Link } from 'react-router-dom'
-
+import { Link } from 'react-router-dom';
 
 // HTML文字列 → テキストだけ抽出（タグを除去）
 const stripHtml = (html) => {
@@ -15,13 +14,11 @@ const stripHtml = (html) => {
 export const TopPage = () => {
 
   return(
-    <div className='px-4 my-10 max-w-[700px] mx-auto'>
- 
-
-      { posts.map((data)=> (
-        <Link key={data.id} 
-         to={`posts/${data.id}`} className='block text-black mb-8 p-4 border border-gray-300'>
-
+    <div className='px-4 my-10'>
+      {posts.map((data) => (
+        <Link key={data.id}
+          to={`/posts/${data.id}`}
+          className='text-black mb-8 p-4 border border-gray-300 block'>
            <div className='flex justify-between'>
                   <li className='text-gray-400 text-[12.8px] list-none'>{new Date(data.createdAt).toLocaleDateString('ja-JP')}</li>
             
@@ -40,13 +37,8 @@ export const TopPage = () => {
               dangerouslySetInnerHTML={{ __html:data.content }}/>
 
 
-
         </Link>
-
-      ))}  
-    </div> 
-
+      ))}
+    </div>
   );
-
-}
-
+};
