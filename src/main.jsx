@@ -2,15 +2,18 @@ import React from 'react';
 import './index.css';
 
 import { createRoot } from 'react-dom/client';
-import { RouterProvider } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
-import { router } from './routesLink';
+import { Layout } from './Layout';
+
 
 
 const root = createRoot(document.getElementById('root'));
 
   root.render(
     <React.StrictMode>
-       <RouterProvider router={router} />
+      <BrowserRouter>
+      <App />
+      </BrowserRouter>
     </React.StrictMode>
   );
