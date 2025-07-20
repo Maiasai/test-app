@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Link , Outlet} from 'react-router-dom';
+import { TopPage } from './TopPage';
 
-function App() {
+
+
+export const App = () =>  {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Editテスト <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <div className="bg-black/80">
+      <ul className="h-16 flex justify-between items-center w-full px-4">
+        <li className="text-white"><Link to="/">Blog</Link></li>
+        <li className="text-white"><Link to="/">お問い合わせ</Link></li>
+      </ul>
+      </div>
+
+      <hr />
+      {/* ここにOutletがあるのでヘッダー下にページ（子コンポーネント「TopPage」が表示される */}
+      <Outlet />
+      </>
   );
 }
-
-export default App;
