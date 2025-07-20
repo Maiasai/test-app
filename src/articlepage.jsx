@@ -20,8 +20,7 @@ export const ArticlePage = () => {
              <p className='text-gray-400 text-[12.8px] list-none'>{new Date(data.createdAt).toLocaleDateString('ja-JP')}</p>
             
               <ul className='flex'>
-                {data.categories && data.categories.length > 0 && (
-                  <li className='text-blue-600 text-[12.8px] mr-2 py-1  px-2 border border-blue-500 rounded list-none'>{data.categories[0]}</li>)}
+                <li className='text-blue-600 text-[12.8px] mr-2 py-1  px-2 border border-blue-500 rounded list-none'>{data.categories[0]}</li>
 
                 {data.categories && data.categories.length > 1 && (
                   <li className='text-blue-600 text-[12.8px] mr-2 py-1  px-2  border border-blue-500 rounded list-none'>{data.categories[1]}</li>)}
