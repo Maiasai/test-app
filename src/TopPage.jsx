@@ -15,6 +15,7 @@ export const TopPage = () => {
 
   return(
     <div className='px-4 my-10'>
+      
       {posts.map((data) => (
         <Link key={data.id}
           to={`/posts/${data.id}`}

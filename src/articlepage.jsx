@@ -12,6 +12,7 @@ export const ArticlePage = () => {
 
     return(
         <div className='p-10'>
+        
         <div className='w-full max-w-3xl mx-auto '>
         <img src = "/800x400.png" alt="800×400て書いてある画像" className="w-[768px]"></img></div>
 
@@ -19,12 +20,14 @@ export const ArticlePage = () => {
          <div className='flex justify-between'>
              <p className='text-gray-400 text-[12.8px] list-none'>{new Date(data.createdAt).toLocaleDateString('ja-JP')}</p>
             
-              <ul className='flex'>
-                <li className='text-blue-600 text-[12.8px] mr-2 py-1  px-2 border border-blue-500 rounded list-none'>{data.categories[0]}</li>
 
-                {data.categories && data.categories.length > 1 && (
-                  <li className='text-blue-600 text-[12.8px] mr-2 py-1  px-2  border border-blue-500 rounded list-none'>{data.categories[1]}</li>)}
+             <ul className='flex'>
+              {data.categories.map((category,index)=> (
+                <li key={index} 
+                className='text-blue-600 text-[12.8px] mr-2 py-1  px-2 border border-blue-500 rounded list-none'>{category}</li>
+              ))}
               </ul>
+
           
          </div>
 
