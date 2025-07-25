@@ -1,14 +1,63 @@
 import React from 'react';
-import { posts } from './posts';
+import {useEffect,useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 
 
 export const ArticlePage = () => {
-    const { id }= useParams();
-    const data= posts.find(i => String(i.id) === id);
+     //URLパラメータ（ルートパラメータ）を取得するためのもの
+      const { id }= useParams();
 
-    if(!data)return <h2>Item Not Found</h2>;
+
+
+      const [isLoading,setIsLoading] = useState(true);
+      const  [ detail, setDetail ]  = useState(null);
+      const  [ error, setError ]  = useState(null);
+    
+        useEffect(() => {
+          const fetcher = async() => {
+
+            try{
+                const resp = await fetch(`https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts/${id}`)
+                const data = await resp.json()
+
+                console.log("APIResponce:", data);
+
+                setDetail(data.post);
+
+
+
+            }catch(e){
+
+                setError(e.message);
+              
+
+            }finally{
+              
+                setIsLoading(false)
+            }
+          }
+        
+
+            
+          fetcher()
+        },[]);
+
+    
+    // //TopPageから持ってきたデータをuseLocationで取得
+    // //posts.findで「posts」の中からURLパラメータの id と一致する投稿オブジェクトを探してる→その結果がdに入る
+    //     const location = useLocation();
+    //     const posts = location.state?.posts || [];
+    //     const d= posts.find(i => String(i.id) === id);
+
+
+      
+      if (isLoading) return <p>読み込み中...</p>;
+      if (error) return <p>エラーが発生しました: {error}</p>;
+      if (!detail)  return <p>"データが見つかりませんでした"</p>;
+      
+          
+
 
     return(
         <div className='p-10'>
@@ -18,11 +67,11 @@ export const ArticlePage = () => {
 
         <div className='w-full max-w-3xl mx-auto p-4 m-0'>
          <div className='flex justify-between'>
-             <p className='text-gray-400 text-[12.8px] list-none'>{new Date(data.createdAt).toLocaleDateString('ja-JP')}</p>
+             <p className='text-gray-400 text-[12.8px] list-none'>{new Date(detail.createdAt).toLocaleDateString('ja-JP')}</p>
             
 
              <ul className='flex'>
-              {data.categories.map((category,index)=> (
+              {detail.categories.map((category,index)=> (
                 <li key={index} 
                 className='text-blue-600 text-[12.8px] mr-2 py-1  px-2 border border-blue-500 rounded list-none'>{category}</li>
               ))}
@@ -31,11 +80,13 @@ export const ArticlePage = () => {
           
          </div>
 
-                <p className='text-black text-2xl mt-2 mb-4'>{data.title}</p>
+                <p className='text-black text-2xl mt-2 mb-4'>{detail.title}</p>
                 <p className='text-black '
-                  dangerouslySetInnerHTML={{ __html:data.content }}/>
+                  dangerouslySetInnerHTML={{ __html:detail.content }}/>
         </div>
         </div>
+
+
   );
 
 }

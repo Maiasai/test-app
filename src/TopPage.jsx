@@ -1,8 +1,11 @@
 import React from 'react';
-import { posts } from './posts';
+import { useEffect,useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ArticlePage } from './articlepage';
 
-// HTML文字列 → テキストだけ抽出（タグを除去）
+
+
+// HTML文字列 → <br>テキストだけ抽出（タグを除去）
 const stripHtml = (html) => {
   const temp = document.createElement('div');
   temp.innerHTML = html;
@@ -10,15 +13,32 @@ const stripHtml = (html) => {
 };
 
 
-
 export const TopPage = () => {
 
+  
+  //APIから記事データを取得してjsonに変換→postsに渡してる
+    const  [ posts, setPosts ]  = useState([]);
+
+    useEffect(() => {
+        const fetcher = async() => {
+        const resp = await fetch("https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts")
+        const data = await resp.json()
+
+        setPosts(data.posts)
+      }
+      fetcher()
+    },[])
+
+    
+
   return(
-    <div className='px-4 my-10'>
+    <>
+    <div className='px-4 my-10 max-w-3xl mx-auto'>
       
       {posts.map((data) => (
         <Link key={data.id}
           to={`/posts/${data.id}`}
+ 
           className='text-black mb-8 p-4 border border-gray-300 block'>
            <div className='flex justify-between'>
                   <li className='text-gray-400 text-[12.8px] list-none'>{new Date(data.createdAt).toLocaleDateString('ja-JP')}</li>
@@ -41,5 +61,6 @@ export const TopPage = () => {
         </Link>
       ))}
     </div>
+    </>
   );
 };
