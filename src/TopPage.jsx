@@ -15,21 +15,46 @@ const stripHtml = (html) => {
 
 export const TopPage = () => {
 
+    const [isLoading,setIsLoading] = useState(true);
+    const  [ error, setError ]  = useState(null);
+
   
   //APIから記事データを取得してjsonに変換→postsに渡してる
     const  [ posts, setPosts ]  = useState([]);
 
-    useEffect(() => {
-        const fetcher = async() => {
-        const resp = await fetch("https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts")
-        const data = await resp.json()
+  useEffect(() => {
+    const fetcher = async() => {
 
-        setPosts(data.posts)
+      try{        
+            const resp = await fetch("https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts")
+            const data = await resp.json()
+
+            setPosts(data.posts)
+
+
+      }catch(e){
+
+          setError(e.message);
+        
+
+      }finally{
+        
+          setIsLoading(false)
       }
-      fetcher()
-    },[])
+    }
+  
 
+      
+    fetcher()
+  },[]);
+
+    if (isLoading) return <p>読み込み中...</p>;
+    if (error) return <p>エラーが発生しました: {error}</p>;
+    if (!posts)  return <p>"データが見つかりませんでした"</p>;
     
+       
+
+
 
   return(
     <>
@@ -49,7 +74,7 @@ export const TopPage = () => {
 
                 {data.categories && data.categories.length > 1 && (
                   <li className='text-blue-600 text-[12.8px] mr-2 py-1  px-2  border border-blue-500 rounded list-none'>{data.categories[1]}</li>)}
-                </ul>
+              </ul>
             </div>
           
 
