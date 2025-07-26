@@ -15,18 +15,18 @@ export const ArticlePage = () => {
   useEffect(() => {
     const fetcher = async () => {
       try {
-          const resp = await fetch(
-            `https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts/${id}`
-          );
-          const data = await resp.json();
-  
-          console.log('API Response:', data);
-          setDetail(data.post);
-        } catch (e) {
-          setError(e.message);
-        } finally {
-          setIsLoading(false);
-        }
+        const resp = await fetch(
+        `https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts/${id}`
+        );
+        const data = await resp.json();
+
+        console.log('API Response:', data);
+        setDetail(data.post);
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        setIsLoading(false);
+      }
       };
           
       fetcher();
