@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEffect,useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArticlePage } from './articlepage';
 
 
 
@@ -14,43 +13,32 @@ const stripHtml = (html) => {
 
 
 export const TopPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [posts, setPosts] = useState([]);
 
-    const [isLoading,setIsLoading] = useState(true);
-    const  [ error, setError ]  = useState(null);
-
-  
-  //APIから記事データを取得してjsonに変換→postsに渡してる
-    const  [ posts, setPosts ]  = useState([]);
-
+  // APIから記事データを取得してjsonに変換→postsに渡してる
   useEffect(() => {
-    const fetcher = async() => {
-
-      try{        
-            const resp = await fetch("https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts")
-            const data = await resp.json()
-
-            setPosts(data.posts)
-
-
-      }catch(e){
-
-          setError(e.message);
-        
-
-      }finally{
-        
-          setIsLoading(false)
+    const fetcher = async () => {
+      try {
+        const resp = await fetch("https://1hmfpsvto6.execute-api.ap-northeast-1.amazonaws.com/dev/posts");
+        const data = await resp.json();
+        setPosts(data.posts);
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        setIsLoading(false);
       }
-    }
+    };
+
+    fetcher();
+  }, []);
+
   
+  if (isLoading) return <p>読み込み中...</p>;
+  if (error) return <p>エラーが発生しました: {error}</p>;
+  if (!posts) return <p>データが見つかりませんでした</p>;
 
-      
-    fetcher()
-  },[]);
-
-    if (isLoading) return <p>読み込み中...</p>;
-    if (error) return <p>エラーが発生しました: {error}</p>;
-    if (!posts)  return <p>"データが見つかりませんでした"</p>;
     
        
 
@@ -65,15 +53,15 @@ export const TopPage = () => {
           to={`/posts/${data.id}`}
  
           className='text-black mb-8 p-4 border border-gray-300 block'>
-           <div className='flex justify-between'>
-                  <li className='text-gray-400 text-[12.8px] list-none'>{new Date(data.createdAt).toLocaleDateString('ja-JP')}</li>
+            <div className='flex justify-between'>
+              <li className='text-gray-400 text-[12.8px] list-none'>{new Date(data.createdAt).toLocaleDateString('ja-JP')}</li>
             
               <ul className='flex'>
                 {data.categories && data.categories.length > 0 && (
-                  <li className='text-blue-600 text-[12.8px] mr-2 py-1  px-2 border border-blue-500 rounded list-none'>{data.categories[0]}</li>)}
+                <li className='text-blue-600 text-[12.8px] mr-2 py-1  px-2 border border-blue-500 rounded list-none'>{data.categories[0]}</li>)}
 
                 {data.categories && data.categories.length > 1 && (
-                  <li className='text-blue-600 text-[12.8px] mr-2 py-1  px-2  border border-blue-500 rounded list-none'>{data.categories[1]}</li>)}
+                <li className='text-blue-600 text-[12.8px] mr-2 py-1  px-2  border border-blue-500 rounded list-none'>{data.categories[1]}</li>)}
               </ul>
             </div>
           
