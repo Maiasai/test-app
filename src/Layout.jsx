@@ -13,6 +13,6 @@ export const Layout = () =>  {
       {/* ここにOutletがあるのでヘッダー下にページ（子コンポーネント「TopPage」が表示される */}
       <Outlet />
       </main>
-      </div>
+    </div>
   );
 }
